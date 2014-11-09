@@ -1,0 +1,65 @@
+\documentclass{report}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}  % better font
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper]{geometry}
+\usepackage{graphicx}   % images
+\usepackage[]{units}    % nicefrac
+\usepackage{listings}   % listings
+\usepackage{hyperref}   % links
+\usepackage[hypcap]{caption} % fixes problems related to hyperref (tables and figures)
+\usepackage[colorinlistoftodos, textwidth=1.5cm, shadow]{todonotes}
+\usepackage{import}
+\renewcommand{\lstlistingname}{Listing}
+
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+% This makes chapter numbers reset when next \part starts
+% http://tex.stackexchange.com/questions/54383/how-to-reset-chapter-and-section-counter-with-part
+\makeatletter
+\@addtoreset{chapter}{part}
+\makeatother
+
+\geometry{verbose,tmargin=2.0cm,bmargin=2.0cm,lmargin=2.0cm,rmargin=2.0cm}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+\urlstyle{same}
+
+% ##################################
+\title{Colobot: Gold Edition\\Game Design Document}
+\author{TerranovaTeam}
+\date{}
+
+\begin{document}
+
+% #### TITLE PAGE ####
+\maketitle
+
+% ### TABLE OF CONTENTS ###
+\tableofcontents{}
+\newpage
+
+% ### TODO: Remove in final version ###
+\listoftodos
+\newpage
+
+% ### CONTENT STARTS HERE ###
+
+\part{Introduction} \newpage
+\subimport{text/}{01_introduction}
+\newpage
+
+\subimport{text/02_design/}{design_index}
+
+\part{Technical details} \newpage
+\subimport{text/03_technical/}{technical_index}
+\newpage
+
+% ### END OF CONTENT ###
+
+\end{document}
