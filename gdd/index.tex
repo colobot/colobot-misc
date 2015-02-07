@@ -1,21 +1,24 @@
-\documentclass[12pt]{report}
+\documentclass[a4paper,12pt]{book}
+
+\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}  % better font
-\usepackage[utf8]{inputenc}
-\usepackage[a4paper]{geometry}
+\usepackage[top=3cm, bottom=3cm, inner=2cm, outer=2cm, marginparwidth=1.8cm, marginparsep=0.1cm]{geometry}
 \usepackage{graphicx}   % images
 \usepackage[]{units}    % nicefrac
 \usepackage{listings}   % listings
-\usepackage{hyperref}   % links
 \usepackage[hypcap]{caption} % fixes problems related to hyperref (tables and figures)
-\usepackage[colorinlistoftodos, textwidth=1.5cm, shadow]{todonotes}
+\usepackage[colorinlistoftodos, textsize=footnotesize, textwidth=1.5cm, shadow]{todonotes}
 \usepackage{import}
+\usepackage{multicol}
+\usepackage{hyperref}   % links
+
 \renewcommand{\lstlistingname}{Listing}
 
 %% Because html converters don't know tabularnewline
 \providecommand{\tabularnewline}{\\}
 
-\geometry{verbose,tmargin=2.0cm,bmargin=2.0cm,lmargin=2.0cm,rmargin=2.0cm}
+%\geometry{verbose,tmargin=2.0cm,bmargin=2.0cm,lmargin=2.0cm,rmargin=2.0cm}
 \hypersetup{
     colorlinks=true,
     linkcolor=blue,
@@ -34,57 +37,41 @@
 \@addtoreset{chapter}{part}
 \makeatother
 
-% ##################################
-%\title{Colobot: Gold Edition\\Game Design Document}
-%\author{TerranovaTeam}
-%\date{}
+% show only parts, chapters and sections in toc
+\setcounter{tocdepth}{1}
+
 
 \begin{document}
 
+\frontmatter
+
 % #### TITLE PAGE ####
 
-\begin{titlepage}
-\begin{center}
+\subimport{text/}{titlepage}
 
-\vspace*{5cm}
-
-\includegraphics[width=\textwidth]{resources/intro-image}
-
-\vspace{3cm}
-
-{ \Huge Colobot: Gold Edition\\[0.75cm] Game Design Document }
-
-\vspace{1.5cm}
-
-{ \Large TerranovaTeam }
-
-\end{center}
-\end{titlepage}
 
 % ### TABLE OF CONTENTS ###
 \tableofcontents{}
-\newpage
+\addcontentsline{toc}{chapter}{Contents}
+\clearpage
 
 % ### TODO LIST (uncomment when needed) ###
 %\listoftodos
 %\newpage
 \todo[inline]{Images. And more images.}
 
+\subimport{text/}{preface}
+
 % ### CONTENT STARTS HERE ###
+\mainmatter
 
-\part{Introduction} \newpage
-\subimport{text/}{01_introduction}
-\newpage
+\subimport{text/01_design/}{design_index}
+\subimport{text/02_cbot/}{cbot_index}
 
-\subimport{text/02_design/}{design_index}
+\backmatter
 
-\part{Level editor} \newpage
-\subimport{text/}{03_level_editor}
-\newpage
-
-\part{Technical details} \newpage
-\subimport{text/04_technical/}{technical_index}
-\newpage
+% todo: add index and glossary?
+% make them not part of a part II
 
 % ### END OF CONTENT ###
 
