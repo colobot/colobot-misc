@@ -1,0 +1,86 @@
+
+\chapter{Grammar and Lexical Structure}
+\label{chap:cbot_grammar}
+
+\section{Grammar notation}
+
+\todo[inline]{Complete description}
+
+
+\section{White Space}
+White space are all the characters that are ignored by lexer during analysis. In CBot there are free white space characters:
+
+\begin{itemize}
+    \item Space
+    \item Tabulation
+    \item New line
+\end{itemize}
+
+
+\section{Comments}
+Comments are separated parts of the source code that are ignored by lexer during analysis. There are two types of comments:
+
+\begin{itemize}
+    \item Line comments that start with \texttt{//} and end with new line
+    \item Block comments that start with \texttt{/*} and end with \texttt{*/}
+\end{itemize}
+
+Example of valid comments are shown below.
+
+\begin{lstlisting}[style=cbot]
+// This is line comment.
+
+/*
+  This is block comment.
+  Everything here is ignored.
+*/
+\end{lstlisting}
+
+
+\section{Identifiers}
+\label{sec:identifiers}
+
+
+\section{Keywords}
+
+Type keywords:
+
+\begin{lstlisting}
+bool
+boolean
+float
+int
+nan
+null
+object
+point
+string
+void
+\end{lstlisting}
+
+Other keywords:
+
+\begin{lstlisting}
+break
+class
+continue
+do
+else
+extern
+for
+if
+new
+private
+public
+return
+static
+switch
+synchronized
+this
+while
+\end{lstlisting}
+
+
+\section{Literals}
+\section{Separators}
+\section{Operators}

@@ -1,0 +1,110 @@
+
+\chapter{Types, Values, and Variables}
+\label{chap:cbot_types}
+
+
+\section{Built-in Types}
+
+\subsection{Void type (\texttt{void})}
+This is special type that has no actual valid values. It is only used to mark functions as not returning a value.
+
+
+\subsection{Logical Type (\texttt{bool} and \texttt{boolean})}
+This is a logical type which is used in conditions and comparison expressions. There are only two valid values for this type: \texttt{false} and \texttt{true}.
+
+\texttt{bool} and \texttt{boolean} are two equivalent keywords for the same type. \texttt{bool} comes from languages such as C++ and C\#, while \texttt{boolean} is a keyword for logical type in Java language. You can use whichever keyword you want, however it is preferred to use one keyword in code. \texttt{boolean} was not documented in CBot manual.
+\todo[inline]{GDD should describe what we WANT the game to be, not how it WAS made by Epsitec -krzys\_h}
+\todo[inline]{We will likely change many things when we rewrite CBot interpreter. But before that happens, I think we should document what we have. -tomaszkax86}
+
+
+\subsection{Integer Type (\texttt{int})}
+This type represents integer numbers. Internally, \texttt{int} is a 32-bit signed integer. For this reason variables of this type can hold values in range $[-2^{31}, 2^{31}-1]$ or $[-2 147 483 648, 2 147 483 647]$.
+
+
+\subsection{Floating Point Type (\texttt{float})}
+Floating point type is used to represent real numbers. Internally it is a single-precision floating point number as specified in IEEE 754.
+
+
+\subsection{String Type (\texttt{string})}
+String type represents a sequence of characters.
+\todo[inline]{Accessing characters like an array}
+
+
+\subsection{Point Type (\texttt{point})}
+\texttt{point} is a built-in class type for storing point coordinates. Each point has three \texttt{float} values named
+\texttt{x}, \texttt{y}, and \texttt{z}.
+
+Class \texttt{point} has definition that is equivalent to code below:
+
+\begin{lstlisting}[style=cbot]
+public class point
+{
+    public float x, y, z;
+    
+    void point()
+    {
+        this.x = 0;
+        this.y = 0;
+        this.z = 0;
+    }
+
+    void point(float x, float y)
+    {
+        this.x = x;
+        this.y = y;
+        this.z = 0;
+    }
+    
+    void point(float x, float y, float z)
+    {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+}
+\end{lstlisting}
+
+
+\subsection{Object Type (\texttt{object})}
+Class \texttt{object} is a built-in class that represents in-game objects. Instances of this class can not be created in code, only instantiated using various instructions, such as \texttt{radar()} and \texttt{retobject()}.
+\todo[inline]{Documentation of members}
+
+
+
+\section{Variables}
+A variable is a storage location in memory that has specified type and identifier. Type can be any of the built-in types or user-created class. Variable identifier is a valid name as specified in section \ref{sec:identifiers}.
+
+Variable has an associated value of given type that can be changed using assignment operator, prefix or postfix decrementation (\texttt{-{}-}) and incrementation (\texttt{++}) statements.
+
+Declaration of variable requires specifying a type and name of variable, and optionally initialization value. Examples of valid declarations are shown below:
+
+\begin{lstlisting}
+int number;
+float x, y;                // you can declare multiple variables of the same type in one declaration
+string text = "Some text";     // you can initialize variable with some value
+\end{lstlisting}
+
+
+\section{Arrays}
+An array is a special type of variable that is a continuous region in memory for storing multiple values. Each array, like all variables, has associated type and identifier, but also length. Length of an array is a number of values it can store.
+
+Arrays are declared similarly to ordinary variables, except you add \texttt{[]} in declaration. There are few ways to declare arrays. Valid declarations of array of type \texttt{int} are shown below:
+
+\begin{lstlisting}
+int[] identifier;
+int identifier[];
+int identifier[3];      // declare an array with length 3
+\end{lstlisting}
+
+Array elements are integer numbers from $0$ to $length-1$, where $length$ is a length of an array. Individual elements of given array can be accessed using indexer syntax with \texttt{[ ]}. Syntax is as follows:
+
+\begin{lstlisting}
+identifier[expression]
+\end{lstlisting}
+
+Where $identifier$ is a name of array and $expression$ specifies index to element within an array.
+
+Arrays in CBot have a special property: they grow automatically when necessary. This means that, unlike in most programming languages, you can create an array of \texttt{int}s with length 3 and save to element $3$ (counting from 0) which will cause the array to grow to length 4.
+
+
+\section{Conversion}

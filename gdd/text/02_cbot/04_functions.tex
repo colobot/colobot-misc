@@ -1,0 +1,82 @@
+
+\chapter{Functions}
+\label{chap:cbot_functions}
+
+\section{Function Declaration}
+
+
+\section{Formal Parameters}
+
+
+\section{Return Type}
+Each function has a return type. Return type is a type of value that is returned by function. For example, function defined to return \texttt{int} will return values of type \texttt{int}. There is also \texttt{void} type which means that function does not return any value.
+
+Value is returned from function using \texttt{return} statement. \texttt{return} also terminates execution of code inside this function. If you want to return a value, simply write:
+
+\begin{lstlisting}
+return value;
+\end{lstlisting}
+
+In case of \texttt{void} functions, you simply write:
+
+\begin{lstlisting}
+return;
+\end{lstlisting}
+
+
+\section{Function Body}
+Function body is simply a list of statements within a block. Variables defined within function are local to the function and are not accessible outside.
+
+
+\section{Overloading}
+Functions can be overloaded, that is you can define multiple functions with the same name as long as they have different format parameters. For example, you can define multiple $max$ functions and even call each other, like in code below.
+
+\begin{lstlisting}
+float max(float x, float y)
+{
+    if(x > y) return x;
+    else return y;
+}
+
+float max(float x, float y, float z)
+{
+    return max(max(x, y), z);
+}
+\end{lstlisting}
+\todo[inline,color=green]{This is really broken in Gold right now -krzys\_h}
+
+
+\section{Main Functions}
+Every executable program has to contain a main function that will be run. This main function has to be properly marked using special keyword: \texttt{extern}. Function marked this way will also serve as a label on program list.
+
+An example of main function is shown in the listing below.
+
+\begin{lstlisting}
+extern void object::Program()
+{
+    // code goes here
+}
+\end{lstlisting}
+
+A function marked as \texttt{extern} cannot be marked as \texttt{public}.
+
+
+\section{Public Functions}
+A public function is a special function that can be accessed by other robots. To make function public you need to add keyword \texttt{public} before it's declared type.
+
+An example of public function is shown below.
+
+\begin{lstlisting}
+public float sum(float[] numbers)
+{
+    float result = 0;
+    int n = sizeof(numbers);
+    
+    for(int i=0; i<n; i++)
+    {
+        result += numbers[i];
+    }
+    
+    return result;
+}
+\end{lstlisting}

@@ -1,0 +1,294 @@
+
+\chapter{Instructions}
+
+Instructions are built-in functions that are provided in CBot for the use in programming robots and other programmable entities.
+
+This chapter describes all instructions defined in CBot, including those which were not mentioned in CBot manual.
+
+
+\section{General Control}
+
+\subsection{\texttt{wait}}
+Waits for specified amount of time in seconds. This instruction terminates when robot finishes waiting.
+
+\begin{lstlisting}
+void wait(float time);
+\end{lstlisting}
+
+
+\subsection{\texttt{move}}
+Orders robot to move by given distance in meters forwards. This instruction terminates when robot finishes movement or an error occurs.
+
+\begin{lstlisting}
+int move(float dist);
+\end{lstlisting}
+
+
+\subsection{\texttt{turn}}
+\label{sec:cbot_turn}
+Orders robot to turn by given angle in degrees. Values in range $(0, 180)$ mean rotate left, values in range $(-180, 0)$ mean rotate right. This instruction terminates when robot finishes rotation.
+
+\begin{lstlisting}
+void turn(float angle);
+\end{lstlisting}
+
+
+\subsection{\texttt{goto}}
+\todo[inline]{Complete description}
+Orders robot to move into specific position. This instruction has a number of optional arguments:
+
+\begin{description}
+    \item[\texttt{position}] Point in the world where robot should go
+\end{description}
+
+\begin{lstlisting}
+int goto(point position);
+\end{lstlisting}
+
+
+\subsection{\texttt{motor}}
+Sets manually individual robot motors. Values are in range $(-1, 1)$. $0$ means motor off. $1$ means full power forwards. $-1$ means full power backwards. Values in between mean less power in direction depending on sign -- positive is forwards, negative is backwards.
+
+\begin{lstlisting}
+void motor(float left, float right);
+\end{lstlisting}
+
+
+\subsection{\texttt{jet}}
+Sets manually a jet engine power of flying robot. Value is in range $(-1, 1)$. Value $0$ means keep hovering at given height. Positive value means ascent. Negative value means descent.
+
+\begin{lstlisting}
+void jet(float engine);
+\end{lstlisting}
+
+
+\subsection{\texttt{message}}
+Displays a message to the player. If second argument is not given, \texttt{DisplayMessage} is used by default.
+
+\begin{lstlisting}
+void message(string text);
+void message(string text, int type);
+\end{lstlisting}
+
+Types of messages:
+
+\begin{description}
+    \item[\texttt{DisplayMessage}] Standard message on yellow background.
+    \item[\texttt{DisplayInfo}] Information on green background.
+    \item[\texttt{DisplayWarning}] Warning on blue background.
+    \item[\texttt{DisplayError}] Error on red background.
+\end{description}
+
+
+\subsection{\texttt{errmode}}
+Changes error handling. Error mode $1$ is default mode that means every severe error will stop program execution with error message shown to the player. Error mode $0$ is special mode which prohibits error messages. Moreover, some instructions will return an error value instead of stopping program execution.
+
+\begin{lstlisting}
+void errmode(int mode);
+\end{lstlisting}
+
+
+\subsection{\texttt{abstime}}
+Returns absolute time in seconds when game started.
+
+\begin{lstlisting}
+float abstime();
+\end{lstlisting}
+
+
+\section{Radar and Topology}
+
+TODO
+
+\subsection{\texttt{radar}}
+\subsection{\texttt{search}}
+\subsection{\texttt{space}}
+\subsection{\texttt{direction}}
+Computes direction from robot's position to given point in space in degrees. This is essentially an angle in degrees that robot needs to rotate around to face this point. Value can be used directly in \texttt{turn} (see \ref{sec:cbot_turn}).
+\todo[inline]{Add equation like for distance()} % it's here: http://en.wikipedia.org/wiki/Atan2#Definition_and_computation
+% or just add a link to atan2() instead (it's below)
+
+\begin{lstlisting}
+float direction(point position);
+\end{lstlisting}
+
+
+\subsection{\texttt{distance}}
+Computes distance between two points in space. This instructions uses all 3 coordinates in calculations. Distance is computed using equation:
+
+\[
+distance(pos1, pos2) = \sqrt{(pos1.x - pos2.x)^2 + (pos1.y - pos2.y)^2 + (pos1.z - pos2.z)^2}
+\]
+
+\begin{lstlisting}
+float distance(point pos1, point pos2);
+\end{lstlisting}
+
+
+\subsection{\texttt{distance2d}}
+Computes distance between two points in 2D plane. This instruction ignores $z$ coordinate in calculations. Distance is computed using equation:
+
+\[
+distance2d(pos1, pos2) = \sqrt{(pos1.x - pos2.x)^2 + (pos1.y - pos2.y)^2}
+\]
+
+\begin{lstlisting}
+float distance2d(point pos1, point pos2);
+\end{lstlisting}
+
+
+\subsection{\texttt{topo}}
+\subsection{\texttt{flatground}}
+\subsection{\texttt{retobject}}
+\subsection{\texttt{retobjectbyid}}
+
+
+\section{Robot-specific Control}
+
+TODO
+
+\subsection{\texttt{grab}}
+\subsection{\texttt{drop}}
+\subsection{\texttt{sniff}}
+\subsection{\texttt{thump}}
+\subsection{\texttt{recycle}}
+\subsection{\texttt{shield}}
+\subsection{\texttt{fire}}
+\subsection{\texttt{aim}}
+
+
+\section{Exchange Post}
+
+TODO
+
+\subsection{\texttt{receive}}
+\subsection{\texttt{send}}
+\subsection{\texttt{testinfo}}
+\subsection{\texttt{deleteinfo}}
+
+
+\section{String Operations}
+
+TODO
+
+\subsection{\texttt{strlen}}
+\subsection{\texttt{strleft}}
+\subsection{\texttt{strright}}
+\subsection{\texttt{strmid}}
+\subsection{\texttt{strfind}}
+\subsection{\texttt{strval}}
+\subsection{\texttt{strupper}}
+\subsection{\texttt{strlower}}
+
+
+\section{File Operations}
+
+TODO
+
+\subsection{\texttt{open}}
+\subsection{\texttt{close}}
+\subsection{\texttt{writeln}}
+\subsection{\texttt{readln}}
+\subsection{\texttt{eof}}
+\subsection{\texttt{deletefile}}
+
+
+\section{Mathematical Operations}
+
+TODO
+
+
+\subsection{\texttt{sin}}
+Computes sine of given angle in degrees.
+
+\begin{lstlisting}
+float sin(float angle);
+\end{lstlisting}
+
+
+\subsection{\texttt{cos}}
+Computes cosine of given angle in degrees.
+
+\begin{lstlisting}
+float cos(float angle);
+\end{lstlisting}
+
+
+\subsection{\texttt{tan}}
+Computes tangent of given angle in degrees.
+
+\begin{lstlisting}
+float tan(float angle);
+\end{lstlisting}
+
+
+\subsection{\texttt{asin}}
+Computes angle based on sine value in range $[-1, 1]$.
+
+\begin{lstlisting}
+float asin(float value);
+\end{lstlisting}
+
+
+\subsection{\texttt{acos}}
+Computes angle based on cosine value in range $[-1, 1]$.
+
+\begin{lstlisting}
+float acos(float value);
+\end{lstlisting}
+
+
+\subsection{\texttt{atan}}
+Computes angle based on tangent value in range $[-\infty, \infty]$.
+
+\begin{lstlisting}
+float atan(float value);
+\end{lstlisting}
+
+
+\subsection{\texttt{atan2}}
+\todo[inline,color=green]{To be implemented}
+
+Computes angle based on tangent of value $\frac{y}{x}$. This function uses signs of both $x$ and $y$ to determine proper angle in range $[0, 360)$.
+
+\begin{lstlisting}
+float atan2(float y, float x);
+\end{lstlisting}
+
+\[
+atan2(y, x) = \left\{
+\begin{array}{ll}
+    arctan(\frac{y}{x}) & x > 0 \\
+    arctan(\frac{y}{x}) + 180 & y \geq 0, x < 0 \\
+    arctan(\frac{y}{x}) - 180 & y < 0, x < 0 \\
+    +90 & y > 0, x = 0 \\
+    -90 & y < 0, x = 0 \\
+    undefined & y = 0, x = 0
+\end{array}
+\right.
+\]
+
+
+\subsection{\texttt{sqrt}}
+Computes square root of argument $\sqrt{value}$. Argument must not be negative. If argument is negative, \texttt{nan} is returned.
+
+\begin{lstlisting}
+float sqrt(float value);
+\end{lstlisting}
+
+
+\subsection{\texttt{pow}}
+Computes a power of two arguments: $x^y$.
+
+\begin{lstlisting}
+float pow(float x, float y);
+\end{lstlisting}
+
+
+\subsection{\texttt{rand}}
+Computes pseudo-random value in range $(0, 1)$.
+
+\begin{lstlisting}
+float rand();
+\end{lstlisting}
+
