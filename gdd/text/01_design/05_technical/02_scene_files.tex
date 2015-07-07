@@ -95,6 +95,20 @@ SoluceFile name="%lvl%/help/soluce.%lng%.txt"
 HelpFile name="cbot.txt"
 \end{lstlisting}
 
+Then, you need to specify mission type. Use \texttt{Mission} command to do that.
+
+\begin{description}
+    \item[\texttt{NORMAL}] Normal Colobot mission, this is the default
+    \item[\texttt{RETRO}] Retrospection mission, where you control a robot from first expedition \todo[color=green]{This is still not fully implemented yet}
+    \item[\texttt{CODE\_BATTLE}] Code battle - level starts paused, you need to set up an automated program to complete the level. After resuming, no manual interaction is allowed. \todo[color=green]{Work in progress, some manual interaction is still possible}
+\end{description}
+
+\todo[color=purple, inline]{Mission command was added in Colobot: Gold Edition}
+
+\begin{lstlisting}[style=scene]
+Mission type=NORMAL
+\end{lstlisting}
+
 Next command is used to define ending screen for winning and failing mission. It has two integer parameters and looks like below:
 
 \begin{lstlisting}[style=scene]
@@ -450,7 +464,7 @@ Each object can have various other parameters that are either specific to that o
 
 \subsubsection{Hidden objects}
 
-Objects can be hidden from radar\todo{and map} and marked as ''useful'' using two additional parameters. ''Useful'' object will show a message and particle effects when your unit is close enough to it. For example, if you want to make a power cell and hide it until player comes 5 meters to it, you can use following command:
+Objects can be hidden from radar and map and marked as ''useful'' using two additional parameters. ''Useful'' object will show a message and particle effects when your unit is close enough to it. For example, if you want to make a power cell and hide it until player comes 5 meters to it, you can use following command:
 
 \begin{lstlisting}[style=scene]
 CreateObject pos=-3.75; 3.75 dir=0.0 type=PowerCell proxyActivate=1 proxyDistance=5
@@ -474,7 +488,11 @@ You can also use \texttt{power} parameter in robots to give them energy cell. Th
 
 \subsubsection{Programs}
 
-You can give programs to robots and aliens, and run them automatically. To do this you use \texttt{stript\emph{n}} parameters, where \emph{n} is program position counting from 1 to 10. To run program automatically you can use \texttt{run} parameter that specify which program should be run. Also, some programs allow you to input special arguments extracted using \emph{cmdline()} CBot function. For this you can use \texttt{cmdline} parameter. For example, to create an ant with automatic program you can use following command:
+You can give programs to robots and aliens, and run them automatically. To do this you use \texttt{script\emph{n}} parameters, where \emph{n} is program position counting from 1 to 10.
+\todo[color=green]{Limit to 10 should be removed since user-created programs have no limits now, see \href{https://github.com/colobot/colobot/issues/494}{issue \#494 on GitHub}}
+By default, programs added to robots in scene files are read-only - you can change that by using \texttt{scriptReadOnly\emph{n}=false}. You can also mark program as not runnable, in case your program is just a guide for what user should do in an exercise, for that use \texttt{scriptRunnable\emph{n}=false}.
+\todo[color=green,inline]{Right now, programs defined as script4 in exercises are not runnable by default. This will be properly fixed by adding scriptRunnable4=false to scene files soon, see \href{https://github.com/colobot/colobot/issues/493}{issue \#493 on GitHub}}
+To run program automatically when level is loaded you can use \texttt{run} parameter that specify which program should be run. Also, some programs allow you to input special arguments extracted using \emph{cmdline()} CBot function. These arguments are floating point numbers. For this you can use \texttt{cmdline} parameter. For example, to create an ant with automatic program you can use following command:
 
 \begin{lstlisting}[style=scene]
 CreateObject pos= -55; 243 cmdline= -55; 243; -62; 234 dir=0.0 type=AlienAnt script1="ant04.txt" run=1
@@ -556,6 +574,17 @@ CreateObject pos=10;-30 dir=0 type=Firework pyro=WIN
 \end{lstlisting}
 
 
+\subsubsection{Teams}
+
+\todo[color=purple,inline]{Teams were added in Colobot: Gold Edition in alpha-0.1.6}
+
+You can assign objects teams using \texttt{team}. The team that is assigned to an object propagates to all buildings and robots created by this object. You can use teams in \texttt{EndMissionTake} and CBot (\emph{object.team} and \emph{radar()} filters)
+
+\begin{lstlisting}[style=scene]
+CreateObject pos=0;0 dir=0.5 type=WheeledGrabber team=1
+\end{lstlisting}
+
+
 \subsection{Finalization}
 
 After all objects have been specified, there are still few things we need to define before scene file is complete. Next part is defining map parameters. This is done using two commands: \texttt{MapColor}, which defines colors used for rendering minimap, and \texttt{MapZoom} which defines default zoom and optionally allows you to disable minimap completely. Colors are specified as 3 RGB values (no alpha). \texttt{floor} means color of terrain and \texttt{water} means color of water. \texttt{factor} is zoom value which can be anything from 1 to 8. If you want to disable minimap, you can use optional parameter \texttt{enable} in \texttt{MapZoom} and set it to 0.
@@ -630,14 +659,15 @@ At the whole end of scene file we define mission winning and losing conditions. 
     \item[max] Defines maximum number of objects to win a mission
     \item[lost] Defines a number of objects that will cause mission failure
     \item[immediat] If set to 1, this condition is the only necessary to win a mission, other conditions are not checked
-    \item[message] Win mission after displaying this message from CBot with message() \todo{This was used somewhere in CeeBot, I have no idea if it still works}
     \item[tool] Used instead of type, counts all bots with specific tool (Grabber, Sniffer, Shooter, OrgaShooter)
     \item[drive] Used instead of type, counts all bots with specific drive type (Wheeled, Tracked, Winged, Legged)
+    \item[team] Look only for objects on this team. Negative value means "match anything except this team and default team (0)"
     \item[powermin] Min amount of energy in energy cell
     \item[powermax] Max amount of energy in energy cell
     \item[countTransported] Also count items in bot's arm or power cell slot, default is false
+    \item[teamWin] Assigns this condition to given team's end conditions \todo{More detailed description}
 \end{description}
-\todo[color=purple,inline]{Original Colobot didn't support tool, drive, powermin, powermax and countTransported (it always counted transported items)}
+\todo[color=purple,inline]{Original Colobot supported only pos, dist, type, min, max, lost and immediat (countTransported was always enabled)}
 
 In all missions, you can find condition that will fail mission if an astronaut is killed. This can be defines as follows:
 
