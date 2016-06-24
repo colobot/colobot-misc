@@ -109,15 +109,23 @@ Then, you need to specify mission type. Use \texttt{Mission} command to do that.
 Mission type=NORMAL
 \end{lstlisting}
 
-Next command is used to define ending screen for winning and failing mission. It has two integer parameters and looks like below:
+Next command is used to define ending screen for winning and failing mission. It has two parameters that specify paths to win/lost scene files and looks like below:
+
+\begin{lstlisting}[style=scene]
+EndingFile win="%lvl%/win.txt" lost="%lvl%/lost.txt"
+\end{lstlisting}
+
+If you want to skip the ending scene and go straight back into mission selection menu, just remove the corresponding parameter from EndingFile.
+
+For backwards compatibility, you can also use an alternative syntax with integers:
 
 \begin{lstlisting}[style=scene]
 EndingFile win=# lost=#
 \end{lstlisting}
 
-Each number is actually used to create file name to another scene file in ''other'' directory that will be used when mission is completed or failed. For example if \texttt{win} is 1, then scene ''win001.txt'' will be used. Value -1 has special meaning -- mission is simply ended and game goes back to mission menu screen.
+In that case, each number is actually used to create file name to another scene file in ''other'' directory that will be used when mission is completed or failed. For example if \texttt{win} is 1, then scene ''win001.txt'' will be used. Value -1 has special meaning -- mission is simply ended and game goes back to mission menu screen.
 
-\todo[inline,color=green]{This behavior might be changed in the future. For now it does not allow custom ending files to be used unless you put your files to ''other'' directory.}
+\todo[color=purple, inline]{Original Colobot supported only the syntax with numbers}
 
 Finally, there's an optional command for defining audio track for background music. You can also tell the game to change music when user is in SatCom or program editor.
 
