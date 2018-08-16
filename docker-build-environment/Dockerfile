@@ -20,4 +20,4 @@ RUN cd /opt/mxe && git apply /usr/src/0001-Revert-sdl2-build-with-libsamplerate-
 
 RUN cd /opt/mxe && make -j9 binutils boost bzip2 cairo dbus expat flac fontconfig freetype gcc gettext glew glib harfbuzz icu4c jpeg libffi libiconv libpng libsndfile libwebp lzo mingw-w64 ogg openal pcre physfs pixman pkgconf portaudio sdl2 sdl2_image sdl2_ttf tiff vorbis xz zlib
 
-RUN apt install patchelf
+RUN apt install -y --no-install-recommends patchelf doxygen graphviz
