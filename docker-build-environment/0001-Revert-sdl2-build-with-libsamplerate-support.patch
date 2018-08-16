@@ -1,0 +1,84 @@
+From 8912ab8070c5101b71c378e332aa6bf87a54837a Mon Sep 17 00:00:00 2001
+From: krzys-h <krzys_h@interia.pl>
+Date: Wed, 15 Aug 2018 23:00:57 +0000
+Subject: [PATCH] Revert "[sdl2] build with libsamplerate support"
+
+This reverts commit 9d9e5bfa85cdd1859a3501993220f30f7faade36.
+---
+ src/sdl2-1-fixes.patch | 23 ++---------------------
+ src/sdl2.mk            |  6 ++----
+ 2 files changed, 4 insertions(+), 25 deletions(-)
+
+diff --git a/src/sdl2-1-fixes.patch b/src/sdl2-1-fixes.patch
+index fd41a7a1..9191107b 100644
+--- a/src/sdl2-1-fixes.patch
++++ b/src/sdl2-1-fixes.patch
+@@ -5,7 +5,7 @@ Contains ad hoc patches for cross building.
+ From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+ From: Tobias Gruetzmacher <tobias-git@23.gs>
+ Date: Sat, 28 Mar 2015 21:47:32 +0100
+-Subject: [PATCH 1/3] fix shared build, libtool
++Subject: [PATCH 1/2] fix shared build, libtool
+ 
+ This patch is a combination of 2 patches from:
+ https://bugzilla.libsdl.org/show_bug.cgi?id=1431
+@@ -59,7 +59,7 @@ index 1111111..2222222 100644
+ From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+ From: Charlemagne Lasse <charlemagnelasse@gmail.com>
+ Date: Mon, 6 Nov 2017 11:04:46 +0100
+-Subject: [PATCH 2/3] Revert "Don't use the system OpenGL headers, ever."
++Subject: [PATCH 2/2] Revert "Don't use the system OpenGL headers, ever."
+ 
+ Bug-MXE: https://github.com/mxe/mxe/issues/1961
+ Bug: https://bugzilla.libsdl.org/show_bug.cgi?id=3944
+@@ -2257,22 +2257,3 @@ index 1111111..2222222 100644
+  
+  #endif /* !__IPHONEOS__ */
+  
+-
+-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+-From: Andrei Alexeyev <0x416b617269@gmail.com>
+-Date: Sat, 23 Dec 2017 03:38:56 +0200
+-Subject: [PATCH 3/3] libsamplerate support for windows
+-
+-
+-diff --git a/configure.in b/configure.in
+-index 1111111..2222222 100644
+---- a/configure.in
+-+++ b/configure.in
+-@@ -3453,6 +3453,7 @@ case "$host" in
+-         CheckWINDOWSGLES
+-         CheckVulkan
+-         CheckDIRECTX
+-+        CheckLibSampleRate
+- 
+-         # Set up the core platform files
+-         SOURCES="$SOURCES $srcdir/src/core/windows/*.c"
+diff --git a/src/sdl2.mk b/src/sdl2.mk
+index 08c5d32d..3eb5e320 100644
+--- a/src/sdl2.mk
++++ b/src/sdl2.mk
+@@ -9,7 +9,7 @@ $(PKG)_CHECKSUM := edc77c57308661d576e843344d8638e025a7818bff73f8fbfab09c3c5fd09
+ $(PKG)_SUBDIR   := SDL2-$($(PKG)_VERSION)
+ $(PKG)_FILE     := SDL2-$($(PKG)_VERSION).tar.gz
+ $(PKG)_URL      := https://www.libsdl.org/release/$($(PKG)_FILE)
+-$(PKG)_DEPS     := cc libiconv libsamplerate
++$(PKG)_DEPS     := cc libiconv
+ 
+ define $(PKG)_UPDATE
+     $(WGET) -q -O- 'https://hg.libsdl.org/SDL/tags' | \
+@@ -21,9 +21,7 @@ define $(PKG)_BUILD
+     cd '$(1)' && aclocal -I acinclude && autoconf && ./configure \
+         $(MXE_CONFIGURE_OPTS) \
+         --enable-threads \
+-        --enable-directx \
+-        --enable-libsamplerate \
+-        --enable-libsamplerate-shared=$(if $(BUILD_SHARED),yes,no)
++        --enable-directx
+     $(SED) -i 's,defined(__MINGW64_VERSION_MAJOR),defined(__MINGW64_VERSION_MAJOR) \&\& defined(_WIN64),' '$(1)/include/SDL_cpuinfo.h'
+     $(SED) -i 's,-XCClinker,,' '$(1)/sdl2.pc'
+     $(SED) -i 's,-XCClinker,,' '$(1)/sdl2-config'
+-- 
+2.17.1
+
+
