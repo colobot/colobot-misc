@@ -12,7 +12,7 @@ ENV CXX g++-8
 RUN apt install -y --no-install-recommends ca-certificates
 
 # Set up MXE
-RUN apt install -y --no-install-recommends autoconf automake autopoint bison flex gperf intltool libtool libtool-bin python ruby scons unzip wget p7zip-full libgtk2.0-dev && git clone https://github.com/mxe/mxe.git /opt/mxe
+RUN apt install -y --no-install-recommends autoconf automake autopoint bison flex gperf intltool libtool libtool-bin python ruby scons unzip wget p7zip-full libgtk2.0-dev lzip && git clone https://github.com/mxe/mxe.git /opt/mxe
 
 # see https://github.com/colobot/colobot/issues/1196
 COPY 0001-Revert-sdl2-build-with-libsamplerate-support.patch /usr/src/0001-Revert-sdl2-build-with-libsamplerate-support.patch
