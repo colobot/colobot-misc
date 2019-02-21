@@ -18,6 +18,10 @@ RUN apt install -y --no-install-recommends autoconf automake autopoint bison fle
 COPY 0001-Revert-sdl2-build-with-libsamplerate-support.patch /usr/src/0001-Revert-sdl2-build-with-libsamplerate-support.patch
 RUN cd /opt/mxe && git apply /usr/src/0001-Revert-sdl2-build-with-libsamplerate-support.patch
 
+# see https://github.com/colobot/colobot/issues/1210
+COPY 0002-Fix-physfs-unknown-error.patch /usr/src/0002-Fix-physfs-unknown-error.patch
+RUN cd /opt/mxe && git apply /usr/src/0002-Fix-physfs-unknown-error.patch
+
 RUN cd /opt/mxe && make -j9 binutils boost bzip2 cairo dbus expat flac fontconfig freetype gcc gettext glew glib harfbuzz icu4c jpeg libffi libiconv libpng libsndfile libwebp lzo mingw-w64 ogg openal pcre physfs pixman pkgconf portaudio sdl2 sdl2_image sdl2_ttf tiff vorbis xz zlib
 
 RUN apt install -y --no-install-recommends patchelf doxygen graphviz

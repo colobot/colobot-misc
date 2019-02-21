@@ -1,0 +1,35 @@
+diff --git a/src/physfs-1-fixes.patch b/src/physfs-1-fixes.patch
+new file mode 100644
+index 00000000..48b141b7
+--- /dev/null
++++ b/src/physfs-1-fixes.patch
+@@ -0,0 +1,29 @@
++Fixes issue with Colobot crashing on Windows. See https://github.com/colobot/colobot/issues/1210
++
++# HG changeset patch
++# User Ryan C. Gordon <icculus@icculus.org>
++# Date 1538620857 14400
++# Node ID ece6769c0676c2d4e8a5893a1acebd0f65456817
++# Parent  a29fef4a20fd79ead82998c91dc4828ed5061cb5
++windows: Workaround GetUserProfileDirectory's API change in Win10 build 1809.
++
++diff -r a29fef4a20fd -r ece6769c0676 src/physfs_platform_windows.c
++--- a/src/physfs_platform_windows.c	Wed May 16 19:54:51 2018 -0400
+++++ b/src/physfs_platform_windows.c	Wed Oct 03 22:40:57 2018 -0400
++@@ -566,7 +566,6 @@
++     else
++     {
++         DWORD psize = 0;
++-        WCHAR dummy = 0;
++         LPWSTR wstr = NULL;
++         BOOL rc = 0;
++ 
++@@ -575,7 +574,7 @@
++          *  psize. Also note that the second parameter can't be
++          *  NULL or the function fails.
++          */
++-        rc = pGetDir(accessToken, &dummy, &psize);
+++        rc = pGetDir(accessToken, NULL, &psize);
++         GOTO_IF(rc, PHYSFS_ERR_OS_ERROR, done);  /* should have failed! */
++ 
++         /* Allocate memory for the profile directory */
