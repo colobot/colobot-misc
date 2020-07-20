@@ -1,0 +1,31 @@
+name: Build GDD PDF
+
+on:
+  push:
+    paths:
+    - 'gdd/**'
+    - '.github/workflows/gdd.yml'
+  pull_request:
+    paths:
+    - 'gdd/**'
+    - '.github/workflows/gdd.yml'
+
+jobs:
+  generate_gdd_pdf:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install LaTeX
+      run: sudo apt-get update && sudo apt-get install -y --no-install-recommends texlive-latex-base texlive-latex-extra texlive-fonts-recommended lmodern
+    - uses: actions/checkout@v2
+    - name: Build PDF
+      working-directory: gdd
+      run: |
+        # LaTeX is weird and likes to be called multiple times to update link references correctly
+        pdflatex index.tex
+        pdflatex index.tex
+        cp index.pdf Colobot_Gold_Edition-Game_Design_Document.pdf
+    - name: Upload
+      uses: actions/upload-artifact@v2
+      with:
+        name: 'Colobot Gold Edition - Game Design Document'
+        path: gdd/Colobot_Gold_Edition-Game_Design_Document.pdf
